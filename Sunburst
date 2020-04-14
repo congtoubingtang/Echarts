@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+    <script type="text/javascript" src="https://www.jb51.net/jslib/jquery/jquery.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="sun1" style="width:50%;height:900px;float:left;"></div>
+    <div id="bar1" style="width:50%;height:900px;float:left;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChartSun1 = echarts.init(document.getElementById('sun1'));
+        var myChartBar1 = echarts.init(document.getElementById('bar1'));
+        //旭日图所需数据结构
+        var data = [{
+            name: '正式平台',
+            value: 9487,
+            children: [{
+                name: '有地址',
+                value: 9357,
+                children: [{
+                    name: '6选3',
+                    value: 2851,
+                    children: [{
+                        name: '北京市',
+                        value: 2336
+                    },{
+                        name: '山东省',
+                        value: 425                        
+                    },{
+                        name: '天津市',
+                        value: 83                        
+                    },{
+                        name: '上海市',
+                        value: 7                        
+                    }]
+                }, {
+                    name: '3+1+2',
+                    value: 5321,
+                    children: [{
+                        name: '广东省',
+                        value: 2068
+                    },{
+                        name: '福建省',
+                        value: 1582,
+                        //数据下可设置格式
+                        // itemStyle: {
+                        //     shadowBlur: 10,
+                        //     shadowColor: '#99ffff'
+                        // },                        
+                    },{
+                        name: '重庆市',
+                        value: 718                        
+                    },{
+                        name: '江苏省',
+                        value: 301                        
+                    },{
+                        name: '湖北省',
+                        value: 257                        
+                    },{
+                        name: '河北省',
+                        value: 222                        
+                    },{
+                        name: '湖南省',
+                        value: 116                        
+                    },{
+                        name: '辽宁省',
+                        value: 57                        
+                    }]
+                }, {
+                    name: '7选3-浙江',
+                    value: 28
+                }, {
+                    name: '未改革',
+                    value: 1157 ,
+                    children:[{
+                        name:'安徽省',
+                        value: 460
+                    },{
+                        name:'陕西省',
+                        value:286
+                    },{
+                        name:'四川省',
+                        value:126
+                    },{
+                        name:'新疆',
+                        value:114
+                    },{
+                        name:'云南省',
+                        value:66
+                    },{
+                        name:'广西',
+                        value:34
+                    },{
+                        name:'江西省',
+                        value:27
+                    },{
+                        name:'甘肃省',
+                        value:17
+                    },{
+                        name:'河南省',
+                        value:14
+                    },{
+                        name:'山西省',
+                        value:13
+                    }]
+                }]
+            }, {
+                name: '无地址',
+                value: 130
+            }]
+        }, {
+            name: '培训平台',
+            value: 3215,
+            children: [{
+                name: '智校测试校',
+                children: [{
+                    name: '培训',
+                    value: 1449
+                }, {
+                    name: '排课',
+                    value: 1325
+                }]
+            },{
+                name:'新课改培训',
+                value: 441
+            }]
+        }, {
+            name: '测试+演示平台',
+            value: 1046,
+            children: [{
+                name: '测试',
+                value: 464
+                }, {
+                    name: '演示',
+                    value: 582
+                }
+            ]
+        }, {
+            name: '职教+旧平台',
+            value: 1239
+        }];
+        var data1 = {
+            "安徽省": 32,
+            "北京市": 101,
+            "福建省": 48,
+            "甘肃省": 2,
+            "广东省": 76,
+            "广西": 4,
+            "河北省": 13,
+            "河南省": 1,
+            "湖北省": 14,
+            "湖南省": 10,
+            "江苏省": 25,
+            "江西省": 4,
+            "辽宁省": 6,
+            "山东省": 18,
+            "山西省": 2,
+            "陕西省": 15,
+            "上海市": 4,
+            "四川省": 9,
+            "天津市": 15,
+            "新疆": 3,
+            "云南省": 6,
+            "浙江省": 3,
+            "重庆市": 24,
+            "3+1+2": 216,
+            "6选3": 138,
+            "7选3-浙江": 3,
+            "未改革": 78,
+            "有地址":435,
+            "无地址":3
+        };
+        var data2 = {
+            "安徽省": 38,
+            "北京市": 191,
+            "福建省": 62,
+            "甘肃省": 8,
+            "广东省": 142,
+            "广西": 2,
+            "河北省": 43,
+            "河南省": 1,
+            "湖北省": 47,
+            "湖南省": 21,
+            "江苏省": 22,
+            "江西省": 0,
+            "辽宁省": 7,
+            "山东省": 20,
+            "山西省": 1,
+            "陕西省": 12,
+            "上海市": 9,
+            "四川省": 7,
+            "天津市": 45,
+            "新疆": 3,
+            "云南省": 4,
+            "浙江省": 5,
+            "重庆市": 49,
+            "3+1+2": 393,
+            "6选3": 265,
+            "7选3-浙江": 5,
+            "未改革": 83
+        };
+
+        var option = {
+            backgroundColor:'#000',
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    return params.name + ' : ' + params.value;
+                }
+            },
+            visualMap: {
+                min: 0,
+                max: 2000,
+                calculable: true,
+                inRange: {
+                    color: ['#50a3ba', '#eac736', '#d94e5d']
+                },
+                textStyle: {
+                    color: '#fff'
+                }
+            },
+            series: [{
+                type: 'sunburst',
+                id:'sunburst1',
+                // highlightPolicy: 'ancestor',
+                data: data,
+                center:['50%','50%'],
+                radius: [10, '90%'],
+                //高亮当前及其子区间
+                //highlightPolicy: 'descendant',
+                label: {
+                    rotate: 'radial',
+                    fontSize: 15
+                },
+                // itemStyle: {
+                //     shadowBlur: 10,
+                //     shadowColor: '#99ffff'
+                // },
+                emphasis: {
+                    itemStyle: {
+                        color: 'red',
+                        borderColor: '#fff',
+                        shadowBlur: 10,
+                        shadowColor: '#99ffff'
+                    }
+                },
+                highlight: {
+                    itemStyle: {
+                        color: 'orange',
+                        borderColor: '#fff',
+                        shadowBlur: 10,
+                        shadowColor: '#99ffff'
+                    }
+                },
+                //非选定区域
+                downplay: {
+                    itemStyle: {
+                        color: '#1e1e1e',
+                        shadowBlur: 0,
+                        opacity: 0.3
+                    },
+                    label: {
+                        opacity: 0.3
+                    }
+                },
+                //levels设置各层次环形宽度
+                levels: [{}, {
+                    r0: '10%',
+                    r: '30%',
+                    itemStyle: {
+                        borderWidth: 2
+                    }
+                }, {
+                    r0: '30%',
+                    r: '50%',
+                    itemStyle: {
+                        borderWidth: 2
+                    }                    
+                }, {
+                    r0: '50%',
+                    r: '70%',
+                    itemStyle: {
+                        borderWidth: 2
+                    }                     
+                }, {
+                    r0: '70%',
+                    r: '75%',
+                    label: {
+                        position: 'outside',
+                        padding: 3,
+                        silent: false
+                    },
+                    itemStyle: {
+                        borderWidth: 3,
+                        shadowBlur: 10,
+                        shadowColor: '#99ffff'
+                    }
+                }]
+            },
+            // {
+            //     id: 'bar1',
+            //     type: 'bar',
+            //     radius: '30%',
+            //     data: data
+
+            // }
+            ]
+        };
+        var option1 = {
+            backgroundColor:'#000',
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    return params.name + ' : ' + params.value;
+                }
+            },
+            visualMap: {
+                min: 0,
+                max: 2000,
+                calculable: true,
+                show: false,
+                seriesIndex:0,
+                inRange: {
+                    color: ['#50a3ba', '#eac736', '#d94e5d']
+                },
+                textStyle: {
+                    color: '#fff'
+                }
+            },
+            //柱形图设置
+            legend:{
+                data:['调用次数','学校数','真实学校数'],
+                textStyle:{
+                    color:'#fff'
+                },
+                top: '1%',
+                selected:{
+                    '调用次数':true,
+                    '学校数':false,
+                    '真实学校数':false                    
+                }
+            },
+            xAxis: {
+                type: 'category',
+                data:['正式平台','培训平台','职教+旧平台','测试+演示平台'],
+
+                axisLine:{
+                    lineStyle:{
+                        type:'solid',
+                        color:'#fff',
+                        width:1
+                    }
+                },
+                //旋转90度显示
+                // axisLabel:{
+                //     rotate:90
+                // }
+            },
+            yAxis: [{
+                name:'调用次数',
+                type: 'value',
+                //坐标内分割线
+                splitLine:{
+                    lineStyle:{
+                        type:'dashed'
+                    }
+                },
+                axisLine:{
+                    lineStyle:{
+                        color:'#fff',
+                        width:1,//这里是为了突出显示加上的
+                    }
+                }
+            },{//是否显示数值分割线
+                splitLine:{
+                    show:false
+                },
+                //max:100,
+                axisLine:{
+                    lineStyle:{
+                        color:'#fff',
+                        width:1,//这里是为了突出显示加上的
+                    }
+                }
+            }],
+            grid: {
+                left: '10%',
+                right: '10%',
+                bottom: '7%',
+                containLabel: true
+            },            
+            series: {
+                name:'调用次数',
+                id: 'bar1',
+                type: 'bar',
+                //柱形图添加边框及阴影
+                itemStyle:{
+                    normal:{
+                        borderWidth: 1,
+                        borderColor: '#fff',                        
+                        shadowBlur: 5,
+                        shadowColor: '#99ffff'
+                    }
+                },
+                data: data
+
+            }
+        };        
+        //鼠标移入旭日图时，重新绘制直方图
+        myChartSun1.on('mouseover','series', function (params) {
+            console.log(params.data.children);
+            console.log(params);
+            //仅当选取对象为旭日图seriesIndex===0时生效            
+            if(params.seriesType === 'sunburst' ){
+                var xAxisData = [];
+                var schoolNumeber = [];
+                var schoolNumeberTrue = [];
+                //存在子元素时，直方图显示子元素结果    
+                if(params.data.children){
+                    console.log(params.data.children.length);
+                    //将横坐标push入 xAxisData 中
+                    for(var i = 0; i < params.data.children.length; i++){
+                        xAxisData.push(params.data.children[i].name);
+                        schoolNumeber.push(data1[params.data.children[i].name]);
+                        schoolNumeberTrue.push(data2[params.data.children[i].name]);
+                        console.log(params.data.children[i].name);
+                        console.log(data1[params.data.children[i].name]);                        
+                    };
+                    //重新绘制直方图
+                    myChartBar1.setOption({
+                        xAxis:{
+                            data:xAxisData
+                        },
+                        series:[{
+                            id:'bar1',
+                            data: params.data.children
+
+                        },{
+                            name:'学校数',
+                            type:'bar',
+                            yAxisIndex:1,
+                            data:schoolNumeber,
+                            itemStyle:{
+                                normal:{
+                                    color:'#fff'
+                                }
+                            }
+                        },{
+                            name:'真实学校数',
+                            type:'bar',
+                            yAxisIndex:1,
+                            data:schoolNumeberTrue,
+                            itemStyle:{
+                                normal:{
+                                    color:'#fff111'
+                                }
+                            }
+                        }]
+                    })
+                }
+                //否则显示最初的平台比例
+                // else{
+                //     myChartBar1.setOption({
+                //         xAxis:{
+                //             data:['正式平台','培训平台','职教+旧平台','测试+演示平台']
+                //         },
+                //         series:{
+                //             id:'bar1',
+                //             data:[9519,3215,1239,1046]
+                //         }
+                //     })
+                // }
+            }
+        });
+        
+        // 使用刚指定的配置项和数据显示图表。
+        myChartSun1.setOption(option);
+        myChartBar1.setOption(option1);
+    </script>
+</body>
+</html>
